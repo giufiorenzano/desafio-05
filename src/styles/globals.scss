@@ -2,6 +2,20 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font: 400 1rem "Inter", sans-serif;
 }
 
-// TODO
+:root {
+  --pink: #FF57B2;
+
+  --gray-100: #F8F8F8; //heading
+  --gray-200: #D7D7D7; //body
+  --gray-300: #BBBBBB; //info
+//  --gray-700: #282C34;
+  --gray-800: #1A1D23;
+}
+
+body {
+  background-color: var(--gray-800);
+}
+
