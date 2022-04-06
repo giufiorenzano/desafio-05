@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-
+import Prismic from "@prismicio/client";
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
@@ -27,15 +27,21 @@ interface HomeProps {
 export default function Home({postsPagination}: HomeProps) {
   return (
     <>
-      <img src="/Logo.svg" alt="logo" />
+      <img src="/Logo.svg" alt="logo" className={styles.img}/>
     </>
 
   )
 }
 
-// export const getStaticProps = async () => {
-//   // const prismic = getPrismicClient();
-//   // const postsResponse = await prismic.query(TODO);
+export const getStaticProps = async () => {
+  const prismic = getPrismicClient();
+  const postsResponse = await prismic.query([
+    Prismic.predicates.at("document.type", "posts")
+  ], {
+    fetch: [],
+    pageSize: 1
+  });
 
-//   // TODO
-// };
+  console.log(postsResponse.results)
+
+};
