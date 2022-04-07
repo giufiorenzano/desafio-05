@@ -1,3 +1,48 @@
-.img {
-  margin: 5.3125rem 0 5.3125rem 23.125rem;
+.container {
+  padding: 5.3125rem 0 5.3125rem 23.125rem; ;
+
+  .img {
+    margin-bottom: 5rem;
+  }
+
+  .post {
+    margin-bottom: 4rem;
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gray-100);
+    }
+
+    h4 {
+      font-size: 1.125rem;
+      color: var(--gray-200);
+      margin-top: .75rem;
+      margin-bottom: 1rem;
+    }
+
+    .postInfo {
+      color: var(--gray-300);
+
+      svg {
+        margin-right: .5rem;
+      }
+
+      span {
+        font-size: .875rem;
+        &.date {
+          margin-right: 2rem;
+        }
+      }
+    }
+  }
+
+  button {
+    color: var(--pink);
+    font-size: 1.125rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    margin-bottom: 5.3125rem;
+  }
 }
