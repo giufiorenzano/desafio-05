@@ -1,7 +1,6 @@
 import next, { GetStaticProps } from 'next';
 import Prismic from "@prismicio/client";
 import { getPrismicClient } from '../services/prismic';
-
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 import { format, parseISO } from 'date-fns';
@@ -80,7 +79,7 @@ export default function Home({ postsPagination }: HomeProps) {
                 <h1>{post.data.title}</h1>
                 <h4>{post.data.subtitle}</h4>
 
-                <span className={styles.postInfo}>
+                <span className={commonStyles.postInfo}>
                   <FiCalendar />
                   <span className={styles.date}>{format((parseISO(post.first_publication_date)), "dd MMM yyyy", {
                     locale: ptBR

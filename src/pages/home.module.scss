@@ -1,5 +1,5 @@
 .container {
-  padding: 5.3125rem 0 5.3125rem 23.125rem; ;
+  padding: 5.3125rem 0 5.3125rem 23.125rem;
 
   .img {
     margin-bottom: 5rem;
@@ -21,20 +21,6 @@
       margin-bottom: 1rem;
     }
 
-    .postInfo {
-      color: var(--gray-300);
-
-      svg {
-        margin-right: .5rem;
-      }
-
-      span {
-        font-size: .875rem;
-        &.date {
-          margin-right: 2rem;
-        }
-      }
-    }
   }
 
   button {

@@ -1,1 +1,14 @@
-// TODO
+.postInfo {
+  span, svg {
+    color: var(--gray-300);
+    font-size: .875rem;
+  }
+
+  svg {
+    margin-right: .5rem;
+  }
+
+  span {
+    margin-right: 1rem;
+  }
+}
