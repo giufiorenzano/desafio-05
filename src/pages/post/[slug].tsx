@@ -10,6 +10,8 @@ import ptBR from 'date-fns/locale/pt-BR';
 import Head from 'next/head';
 import Header from '../../components/Header';
 import { useEffect, useState } from 'react';
+import { RichText } from 'prismic-dom';
+import { useRouter } from 'next/router';
 
 interface Post {
   first_publication_date: string | null;
@@ -28,11 +30,18 @@ interface Post {
   };
 }
 
+
 interface PostProps {
   post: Post;
 }
 
 export default function Post({ post }: PostProps) {
+  const router = useRouter()
+
+  if(router.isFallback) {
+    return <h1>Carregando...</h1>
+  }
+
   let [timeToRead, setTimeToRead] = useState<number>(0)
 
   function countWords(str) {
@@ -60,6 +69,7 @@ export default function Post({ post }: PostProps) {
     setTimeToRead(minutes)
   })
 
+
   return (
     <>
       <Head>
@@ -81,19 +91,24 @@ export default function Post({ post }: PostProps) {
             <FiUser />
             <span>{post.data.author}</span>
             <FiClock />
-            <span>{ `${timeToRead} min`}</span>
+            <span>{`${timeToRead} min`}</span>
           </span>
 
           {post.data.content.map((content) => {
-              return <><h3 key={`${content}-content`}>{content.heading}</h3>
-                {content.body.map((paragraph, index) => (
-                  <p key={`${index}-paragraph-${content}`}>{paragraph.text}</p>
-                ))}
-              </>
-            })
+            return <div key={content.heading}>
+              <h3>
+                {content.heading}
+              </h3>
+              <div
+                className={`${styles.postContent} ${styles.previewContent}`}
+                dangerouslySetInnerHTML={{ __html: RichText.asHtml(content.body) }}
+              />
+            </div>
+          })
           }
         </article>
       </main>
+
     </>
   )
 }
@@ -104,34 +119,40 @@ export const getStaticPaths: GetStaticPaths = async () => {
     Prismic.predicates.at("document.type", "posts")
   ]);
 
-  let paths = []
-  posts.results.forEach((post) => {
-    paths.push({ params: { slug: post.uid } })
+  let paths = posts.results.map((post) => {
+    return { params: { slug: post.uid } }
   })
+
   return {
-    paths: [
-      ...paths
-    ],
+    paths,
     fallback: true
   }
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { slug } = params;
+export const getStaticProps: GetStaticProps = async context => {
+  const { slug } = context.params;
 
   const prismic = getPrismicClient();
   const response = await prismic.getByUID("posts", String(slug), {});
+
+
+  let content = response.data.content.map((content) => {
+    return { heading: content.heading,
+      body: [...content.body]
+    }
+  })
 
   const post = {
     uid: response.uid,
     first_publication_date: response.first_publication_date,
     data: {
-      title: response.data.title,
+      title:response.data.title,
+      subtitle: response.data.subtitle,
       banner: {
         url: response.data.banner.url,
       },
       author: response.data.author,
-      content: response.data.content
+      content: content
     }
   }
 
